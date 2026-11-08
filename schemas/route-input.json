@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["objective", "tasks", "profiles"],
+  "properties": {
+    "decision_model": {"type": "string", "default": "nace-ai/drex-max", "enum": ["typesafe/jev-1.13", "typesafe/jev-1.14", "nace-ai/drex-max", "nace-ai/drex-v1.5", "nace-ai/drex-v2.0"], "description": "Primary decision model. Defaults to Drex Max."},
+    "fallback_decision_model": {"type": ["string", "null"], "enum": [null, "typesafe/jev-1.13", "typesafe/jev-1.14", "nace-ai/drex-max", "nace-ai/drex-v1.5", "nace-ai/drex-v2.0"], "description": "Backup for failed/uncertain decisions. Defaults to Jev 1.14 when the primary is Drex Max; null disables it."},
+    "objective": {"type": "string", "minLength": 1, "maxLength": 4000, "description": "Compact task goal. Do not include credentials or full repositories."},
+    "policy": {"type": "string", "enum": ["economy", "balanced", "quality"], "default": "balanced"},
+    "max_parallel": {"type": "integer", "minimum": 1, "maximum": 16, "default": 3, "description": "Must not exceed free subagent slots reported by the host."},
+    "min_probability": {"type": "number", "minimum": 0, "maximum": 1, "default": 0.7},
+    "min_margin": {"type": "number", "minimum": 0, "maximum": 1, "default": 0.15},
+    "profiles": {
+      "type": "array", "minItems": 1, "maxItems": 16,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "model", "reasoning_effort", "description", "cost_rank"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,47}$"},
+          "model": {"type": "string", "minLength": 1, "maxLength": 100, "description": "Exact native host model ID; verify current availability."},
+          "reasoning_effort": {"type": "string", "enum": ["low", "medium", "high", "xhigh", "max", "ultra"]},
+          "description": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "cost_rank": {"type": "integer", "minimum": 1, "maximum": 100, "description": "Relative preference only. Lower is cheaper; not a token price or subscription multiplier."}
+        }
+      }
+    },
+    "tasks": {
+      "type": "array", "minItems": 1, "maxItems": 16,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "description", "role", "depends_on", "allowed_profiles", "fallback_profile", "acceptance"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,47}$"},
+          "description": {"type": "string", "minLength": 1, "maxLength": 2000},
+          "role": {"type": "string", "minLength": 1, "maxLength": 120},
+          "acceptance": {"type": "string", "minLength": 1, "maxLength": 1500},
+          "context": {"type": "string", "minLength": 1, "maxLength": 3000},
+          "depends_on": {"type": "array", "maxItems": 15, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,47}$"}},
+          "allowed_profiles": {"type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,47}$"}},
+          "fallback_profile": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,47}$", "description": "Host-selected adequate profile if Jev fails or is uncertain; must be in allowed_profiles."}
+        }
+      }
+    }
+  }
+}

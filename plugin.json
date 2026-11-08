@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "jev-codex-router",
+  "version": "0.2.1",
+  "description": "Use Jev or Drex through OpenRouter to choose native Codex subagent models and reasoning effort.",
+  "author": {"name": "Habib"},
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Codex Decision Router",
+        "shortDescription": "Подбор моделей для субагентов",
+        "longDescription": "Drex Max распределяет задачи между моделями и уровнями рассуждения субагентов Codex. Jev 1.14 подхватывает сбои и спорные решения. OpenRouter оплачивает только маршрутизацию; исполнители работают в Codex.",
+        "developerName": "Habib",
+        "category": "Developer Tools",
+        "capabilities": [],
+        "defaultPrompt": "$jev-codex-router:route-subagents"
+      }
+    }
+  }
+}

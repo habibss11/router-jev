@@ -1,0 +1,20 @@
+[
+  {"id": "claude_haiku", "model": "haiku", "reasoning_effort": "medium", "cost_rank": 1,
+   "description": "Claude subagent. Code search, reading files, collecting facts from sources. Not for edits that need judgment."},
+  {"id": "codex_luna", "model": "gpt-6-luna", "reasoning_effort": "medium", "cost_rank": 1,
+   "description": "Codex run. Mechanical bulk work with an automatic check: renames, extraction, formatting. Weak autonomy, unreliable on facts."},
+  {"id": "codex_terra", "model": "gpt-6.1-terra", "reasoning_effort": "medium", "cost_rank": 2,
+   "description": "Codex run. Implementation and tests against a clear specification, boilerplate, contained refactors."},
+  {"id": "codex_sol", "model": "gpt-6.1-sol", "reasoning_effort": "medium", "cost_rank": 3,
+   "description": "Codex run. Long multi-file implementation, migrations and work that needs a large context."},
+  {"id": "codex_sol_high", "model": "gpt-6.1-sol", "reasoning_effort": "high", "cost_rank": 4,
+   "description": "Codex run. Independent read-only code review and harder multi-file implementation."},
+  {"id": "claude_sonnet", "model": "sonnet", "reasoning_effort": "medium", "cost_rank": 5,
+   "description": "Claude subagent. Terminal and environment work, tasks that need this session's tools or connectors."},
+  {"id": "claude_sonnet_high", "model": "sonnet", "reasoning_effort": "high", "cost_rank": 6,
+   "description": "Claude subagent. Difficult implementation and debugging with a partly known cause."},
+  {"id": "claude_opus", "model": "opus", "reasoning_effort": "high", "cost_rank": 8,
+   "description": "Claude subagent. Debugging with an unknown root cause, architecture and risky cross-cutting decisions."},
+  {"id": "codex_astra", "model": "gpt-6-astra", "reasoning_effort": "high", "cost_rank": 9,
+   "description": "Codex run. Second opinion on a critical decision or infrastructure incident. Consumes subscription limits quickly."}
+]

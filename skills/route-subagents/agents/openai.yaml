@@ -1,0 +1,6 @@
+interface:
+  display_name: "Codex Decision Router"
+  short_description: "Распределяет модели и уровни рассуждения для субагентов"
+  default_prompt: "$jev-codex-router:route-subagents"
+policy:
+  allow_implicit_invocation: false

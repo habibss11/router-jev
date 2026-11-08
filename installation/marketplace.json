@@ -1,0 +1,12 @@
+{
+  "name": "habib-local",
+  "interface": {"displayName": "Плагины Хабиба"},
+  "plugins": [
+    {
+      "name": "jev-codex-router",
+      "source": {"source": "local", "path": "./jev-codex-router"},
+      "policy": {"installation": "AVAILABLE", "authentication": "ON_USE"},
+      "category": "Developer Tools"
+    }
+  ]
+}

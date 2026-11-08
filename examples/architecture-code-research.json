@@ -1,0 +1,16 @@
+{
+  "objective": "Добавить поиск по каталогу. Сначала изучить текущие данные и API, затем выбрать архитектуру, реализовать и проверить поведение.",
+  "policy": "balanced",
+  "max_parallel": 2,
+  "profiles": [
+    {"id": "reader", "model": "gpt-6-luna", "reasoning_effort": "high", "description": "Узкий поиск фактов и чтение исходников с проверяемым отчётом.", "cost_rank": 1},
+    {"id": "coder", "model": "gpt-6.1-sol", "reasoning_effort": "medium", "description": "Реализация и проверка кода по чёткому контракту.", "cost_rank": 2},
+    {"id": "architect", "model": "gpt-6-astra", "reasoning_effort": "high", "description": "Архитектурные решения с неопределённостью, рисками и несколькими компонентами.", "cost_rank": 3}
+  ],
+  "tasks": [
+    {"id": "read", "role": "исследователь", "description": "Найти схему каталога, пути API и существующие тесты. Не редактировать файлы.", "depends_on": [], "allowed_profiles": ["reader", "coder"], "fallback_profile": "coder", "acceptance": "Отчёт с точными путями и подтверждёнными ограничениями."},
+    {"id": "design", "role": "архитектор", "description": "Выбрать контракт поиска с учётом реальных данных из read.", "depends_on": ["read"], "allowed_profiles": ["coder", "architect"], "fallback_profile": "architect", "acceptance": "Контракт входа/выхода, обработка пустой строки и ошибок, критерии готовности."},
+    {"id": "code", "role": "разработчик", "description": "Реализовать согласованный контракт design и проверить изменение.", "depends_on": ["design"], "allowed_profiles": ["coder", "architect"], "fallback_profile": "coder", "acceptance": "Код следует контракту, подходящие проверки проходят."},
+    {"id": "review", "role": "проверяющий", "description": "Проверить фактический diff code и критерии design, найти существенные регрессии.", "depends_on": ["code"], "allowed_profiles": ["coder", "architect"], "fallback_profile": "architect", "acceptance": "Проверенные замечания с путями или явное отсутствие найденных существенных проблем."}
+  ]
+}

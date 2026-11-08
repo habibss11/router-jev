@@ -1,0 +1,67 @@
+# Проверка установленного плагина 0.2.0 — 2026-11-03
+
+## Изменение 0.2.1
+
+Навык явно обрабатывает сообщение из одного упоминания
+`$jev-codex-router:route-subagents`: берёт текущую незавершённую задачу из
+переписки, а при её отсутствии ожидает следующее задание. Дополнительная
+фраза активации не требуется. Стартовые подсказки навыка и плагина содержат
+только это упоминание. Изменены инструкции и номер версии; логика маршрутизации
+сохраняет Drex Max основным, Jev 1.14 резервным. Ниже — результаты проверки 0.2.0.
+
+- 29 тестов Python unittest: PASS.
+- Python AST и синтаксис JSON: PASS.
+- Проверка идентификатора плагина, длины описания и пути запуска: PASS.
+- YAML frontmatter и agents/openai.yaml: PASS (Ruby YAML.safe_load).
+- MCP stdio: initialize, tools/list, router_status, preview_routing и
+  обработка ошибочного вызова проверены через реальный subprocess.
+- Проверены все пять model ID в формируемом запросе, зависимости и циклы,
+  разрешённые кандидаты, резервный выбор, вероятности, кэш, смена контекста,
+  ограничение вызовов и отсутствие ключа в выводе.
+- Проверены переход Drex Max → Jev 1.14 при сбое, передача только спорных
+  вопросов резерву, сохранение успешных решений основной модели, сумма
+  стоимости двух попыток, остановка при 401/402/403 и отсутствие повторных циклов.
+- Проверены отдельный файл ключа, режим 0600, скрытый ввод только в терминале,
+  сохранение существующего ключа при установке и перечитывание без перезапуска.
+
+## Установка в Codex
+
+`codex plugin add jev-codex-router@habib-local --json`: успешно.
+`codex plugin list --marketplace habib-local --json`: installed=true,
+enabled=true, version=0.2.0.
+
+Источник: `/Users/habib/Documents/N8N/jev-codex-router`.
+Кэш установки: `/Users/habib/.codex/plugins/cache/habib-local/jev-codex-router/0.2.0`.
+Marketplace: `/Users/habib/Documents/N8N/.agents/plugins/marketplace.json`.
+
+Через настоящий `codex app-server --stdio`:
+
+- `plugin/read` распознал marketplace habib-local, сервер decision-router
+  и навык jev-codex-router:route-subagents.
+- `mcpServerStatus/list`, serverName=decision-router, подключил сервер
+  версии 0.2.0 и обнаружил router_status, preview_routing, route_tasks.
+- toolsError=null; MCP authStatus=unsupported ожидаем для stdio:
+  OpenRouter-ключ загружает сам процесс, это не MCP OAuth.
+
+Безопасный вызов status выполнен из установленного кэша: primary_model=
+nace-ai/drex-max, backup_model=typesafe/jev-1.14, api_key_configured=false,
+api_calls_this_process=0. Пустой файл ключа создан отдельно от пакета:
+`/Users/habib/.config/codex-decision-router/credentials.json`.
+
+Общая инвентаризация всех посторонних MCP-серверов не завершилась в 25 секунд;
+прицельная проверка decision-router прошла. Уже открытый чат не получил новые
+tools в текущем снимке; пользоваться плагином следует в новом чате.
+
+HTTP-транспорт в тестах подставной. Живой ключ ещё не добавлен.
+Файлы .env и secrets не читались. Платных запросов не было.
+
+Не проверены: живой контракт с OpenRouter для каждой модели, качество
+маршрутизации на задачах пользователя, P50/P95 из его сети, реальные списания
+и применение выбранных моделей к реальным субагентам. Процент экономии
+не измерен. Ввод ключа пользователем — оставшийся шаг активации API.
+
+Сравнение моделей основано на публичных источниках из model-comparison.md.
+Google в браузере использован после деградировавшего поиска SearXNG;
+оригинальные источники прочитаны отдельно. Прямое чтение публичного API
+endpoints OpenRouter через web-инструмент не сработало; точная текущая
+ревизия `nace-ai/drex-max` не установлена.
