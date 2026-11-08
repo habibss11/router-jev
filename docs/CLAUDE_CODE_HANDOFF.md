@@ -26,9 +26,9 @@ OpenRouter оплачивает только решения маршрутиза
 - Версия: `0.2.1`.
 - Установленный плагин: `jev-codex-router@habib-local`.
 - Локальный marketplace: `habib-local`.
-- Исходники: `/Users/habib/Documents/N8N/jev-codex-router`.
-- Установленная копия: `/Users/habib/.codex/plugins/cache/habib-local/jev-codex-router/0.2.1`.
-- Каталог marketplace: `/Users/habib/Documents/N8N/.agents/plugins/marketplace.json`.
+- Исходники: `<router-dir>`.
+- Установленная копия: `~/.codex/plugins/cache/habib-local/jev-codex-router/0.2.1`.
+- Каталог marketplace: `<marketplace-root>/.agents/plugins/marketplace.json`.
 
 При проверке 8 ноября Codex сообщает `installed=true`, `enabled=true`, version `0.2.1`. Доступный MCP-инструмент `router_status` отвечает и распознаёт настроенный ключ OpenRouter. Значение ключа не запрашивалось и не выводилось. В этой проверке платных вызовов моделей не было; работоспособность ключа в живом запросе и доступ аккаунта к моделям этим не установлены.
 
@@ -267,14 +267,14 @@ Content-Type: application/json
 Приоритет загрузки ключа:
 
 1. Переменная окружения `OPENROUTER_API_KEY`.
-2. Файл `/Users/habib/.config/codex-decision-router/credentials.json`.
+2. Файл `~/.config/codex-decision-router/credentials.json`.
 
 `CODEX_DECISION_ROUTER_KEY_FILE` позволяет задать другой путь. Сервер перечитывает ключ при некэшированном распределении; перезапуск для добавления ключа не требуется.
 
 Для настройки пользователь запускает в Терминале:
 
 ```bash
-python3 /Users/habib/Documents/N8N/jev-codex-router/scripts/setup_key.py
+python3 scripts/setup_key.py
 ```
 
 Ввод скрыт. Файл создаётся с правами 0600, отдельно от пакета и кэша. Значение ключа не следует читать в контекст агента, выводить или переносить в handoff. Файлы `.env` и каталог `secrets/` не нужны для использования этого инструмента.
@@ -283,14 +283,14 @@ python3 /Users/habib/Documents/N8N/jev-codex-router/scripts/setup_key.py
 
 ```bash
 # Запуск MCP-сервера
-python3 /Users/habib/Documents/N8N/jev-codex-router/server/main.py serve
+python3 server/main.py serve
 
 # Безопасная проверка состояния
-python3 /Users/habib/Documents/N8N/jev-codex-router/server/main.py status
+python3 server/main.py status
 
 # Проверка запроса без API
-python3 /Users/habib/Documents/N8N/jev-codex-router/server/main.py preview \
-  < /Users/habib/Documents/N8N/jev-codex-router/examples/architecture-code-research.json
+python3 server/main.py preview \
+  < <router-dir>/examples/architecture-code-research.json
 ```
 
 CLI-команда `route` вместо `preview` делает платный вызов при наличии выбора и ключа. Коды возврата: 0 — план без аварийных профилей, 2 — fallback_plan, 1 — ошибка входа.
@@ -298,7 +298,7 @@ CLI-команда `route` вместо `preview` делает платный в
 ## 13. Структура исходников
 
 ```text
-/Users/habib/Documents/N8N/jev-codex-router/
+<router-dir>/
   plugin.json                          # Agent Plugins 1.0, метаданные Codex
   mcp.json                             # stdio-сервер, ${PLUGIN_ROOT}
   server/
@@ -353,4 +353,4 @@ Claude Code позволяет задавать модель субагента 
 
 ## 16. Короткий контекст для следующего агента
 
-Есть установленный и включённый Codex-плагин 0.2.1 в `/Users/habib/Documents/N8N/jev-codex-router`. Он маршрутизирует подзадачи между штатными субагентами Codex, используя Drex Max через OpenRouter и Jev 1.14 как резерв. MCP-сервер возвращает проверенный план; исполняет его основной агент по SKILL.md. Достаточно явного упоминания навыка. Ключ настроен отдельно, его содержимое не нужно читать. Универсальный контракт можно переиспользовать, а интеграцию Claude Code нужно проектировать и проверять отдельно. Перед изменениями прочитай исходники и уточни целевой хост исполнителей, если это не указано в следующем задании пользователя.
+Есть установленный и включённый Codex-плагин 0.2.1 в `<router-dir>`. Он маршрутизирует подзадачи между штатными субагентами Codex, используя Drex Max через OpenRouter и Jev 1.14 как резерв. MCP-сервер возвращает проверенный план; исполняет его основной агент по SKILL.md. Достаточно явного упоминания навыка. Ключ настроен отдельно, его содержимое не нужно читать. Универсальный контракт можно переиспользовать, а интеграцию Claude Code нужно проектировать и проверять отдельно. Перед изменениями прочитай исходники и уточни целевой хост исполнителей, если это не указано в следующем задании пользователя.

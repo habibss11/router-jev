@@ -30,9 +30,9 @@
 `codex plugin list --marketplace habib-local --json`: installed=true,
 enabled=true, version=0.2.0.
 
-Источник: `/Users/habib/Documents/N8N/jev-codex-router`.
-Кэш установки: `/Users/habib/.codex/plugins/cache/habib-local/jev-codex-router/0.2.0`.
-Marketplace: `/Users/habib/Documents/N8N/.agents/plugins/marketplace.json`.
+Источник: `<router-dir>`.
+Кэш установки: `~/.codex/plugins/cache/habib-local/jev-codex-router/0.2.0`.
+Marketplace: `<marketplace-root>/.agents/plugins/marketplace.json`.
 
 Через настоящий `codex app-server --stdio`:
 
@@ -46,7 +46,7 @@ Marketplace: `/Users/habib/Documents/N8N/.agents/plugins/marketplace.json`.
 Безопасный вызов status выполнен из установленного кэша: primary_model=
 nace-ai/drex-max, backup_model=typesafe/jev-1.14, api_key_configured=false,
 api_calls_this_process=0. Пустой файл ключа создан отдельно от пакета:
-`/Users/habib/.config/codex-decision-router/credentials.json`.
+`~/.config/codex-decision-router/credentials.json`.
 
 Общая инвентаризация всех посторонних MCP-серверов не завершилась в 25 секунд;
 прицельная проверка decision-router прошла. Уже открытый чат не получил новые

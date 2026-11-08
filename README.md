@@ -34,13 +34,13 @@ python3 scripts/install_claude_code.py
 Запустите в **Терминале**:
 
 ```bash
-python3 /Users/habib/Documents/N8N/jev-codex-router/scripts/setup_key.py
+python3 scripts/setup_key.py
 ```
 
 Вставьте ключ OpenRouter в скрытый запрос. Он сохранится отдельно от плагина:
 
 ```text
-/Users/habib/.config/codex-decision-router/credentials.json
+~/.config/codex-decision-router/credentials.json
 ```
 
 Файл имеет права 0600. Его формат для ручного редактирования:
@@ -57,7 +57,7 @@ python3 /Users/habib/Documents/N8N/jev-codex-router/scripts/setup_key.py
 Проверить состояние без показа ключа:
 
 ```bash
-python3 /Users/habib/Documents/N8N/jev-codex-router/scripts/setup_key.py --status
+python3 scripts/setup_key.py --status
 ```
 
 ## Как пользоваться
@@ -107,11 +107,11 @@ $jev-codex-router:route-subagents
 
 ## Установка и обновление
 
-Локальный marketplace: `habib-local`, корень `/Users/habib/Documents/N8N`.
+Локальный marketplace: `habib-local`, корень `<marketplace-root>`.
 Идентификатор плагина: `jev-codex-router@habib-local`.
 
 ```bash
-python3 /Users/habib/Documents/N8N/jev-codex-router/scripts/install_local.py
+python3 scripts/install_local.py
 ```
 
 Скрипт сохраняет существующие записи marketplace, добавляет этот плагин,
